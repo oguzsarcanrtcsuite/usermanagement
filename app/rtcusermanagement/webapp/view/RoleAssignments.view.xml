@@ -1,0 +1,89 @@
+<mvc:View xmlns:commons="sap.suite.ui.commons" displayBlock="true" controllerName="rtcusermanagement.controller.RoleAssignments" height="100%"
+	xmlns="sap.uxap"
+	xmlns:status="../model/Status"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:m="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+	xmlns:smartTable="sap.ui.comp.smarttable"
+	xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:v="sap.ui.comp.variants"
+	xmlns:u="sap.ui.unified"
+	xmlns:table="sap.ui.table"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:sv="sap.ui.comp.smartvariants"
+	xmlns:mcb= "sap.m.MultiComboBox"
+	xmlns:cb="sap.m.ComboBox">
+
+	<ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" alwaysShowContentHeader="false" preserveHeaderStateOnScroll="false" headerContentPinnable="true" isChildPage="true" busyIndicatorDelay="0" busy="{objectView>/busy}" headerContentPinned="true" upperCaseAnchorBar="false">
+		<headerTitle>
+			<ObjectPageDynamicHeaderTitle>
+				<expandedHeading>
+					<m:Title text="{User}" wrapping="true" class="sapUiSmallMarginEnd" />
+
+				</expandedHeading>
+				<expandedContent>
+					<m:Text text="{DocumentNumber}" />
+				</expandedContent>
+
+				<actions>
+					<m:Button text="{i18n>AddNewUser}" type="Transparent" icon="sap-icon://internet-browser" press="getDisplay">
+						<m:customData>
+							<core:CustomData key="format" value="html"></core:CustomData>
+						</m:customData>
+					</m:Button>
+				</actions>
+
+			</ObjectPageDynamicHeaderTitle>
+		</headerTitle>
+
+		<sections>
+			<ObjectPageSection title="{i18n>UserInformation}">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<form:SimpleForm id="form" editable="true" layout="ColumnLayout" labelSpanXL="2" labelSpanL="2" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="2">
+								<form:content>
+									<m:Label text="{i18n>SelectUser}" />
+										<m:ComboBox id="multiComboBoxCompany" selectionChange="onCompanyFilterChange" showSecondaryValues="true" valueState="Error" valueStateText="{i18n>PleaseSelectUser}" items="{
+											path: 'userModel>/users',
+											sorter: { path: 'name' }
+										}">
+											<core:Item key="{userModel>name}" text="{userModel>name}" additionalText="{userModel>name}" />
+										</m:ComboBox>
+
+									<m:Label text="{i18n>BillingWay}" />
+									<m:MultiComboBox label="{i18n>BillingWay}" id="comboBoxWay" selectionChange="onBillingFilterChange" customData:hasValue="false">
+										<core:Item key="Inbound" text="{i18n>Inbound}" />
+										<core:Item key="Outbound" text="{i18n>Outbound}" />
+									</m:MultiComboBox>
+
+
+									<!--core:Title text="{i18n>DocumentInfo}" /-->
+									<!--m:Label text="{i18n>RtcNumber}" />
+									<m:Input id="RtcNumber" value="{RTCHeaderManual>RtcNumber}" /-->
+									<m:Label text="{i18n>DocumentNumber}" />
+									<m:Input id="DocumentNumber" value="{RTCHeaderManual>DocumentNumber}" />
+									<m:Label text="{i18n>ApprovalCode}" />
+									<m:Input id="ApprovalCode" value="{RTCHeaderManual>ApprovalCode}" />
+
+									<m:Label text="{i18n>BillingDate}" />
+									<m:DatePicker id="BillingDate" value="{path: 'RTCHeaderManual>DocumentDate',
+									type: 'sap.ui.model.type.DateTime',
+									formatOptions: {
+                                            
+										pattern: 'dd/MM/yyyy' } }" />
+									<core:Title text="{i18n>PriceInfo}" />
+									<m:Label text="{i18n>TaxAmount}" />
+									<m:Input id="TaxAmount" value="{RTCHeaderManual>TaxAmount}" type="Number" />
+
+								</form:content>
+							</form:SimpleForm>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+		</sections>
+	</ObjectPageLayout>
+</mvc:View>

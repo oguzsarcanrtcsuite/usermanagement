@@ -1,0 +1,431 @@
+<mvc:View xmlns:commons="sap.suite.ui.commons"
+	displayBlock="true"
+	controllerName="rtcusermanagement.controller.UsersandAuthorizationPage"
+	height="100%"
+	xmlns="sap.uxap"
+	xmlns:status="../model/Status"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:m="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:v="sap.ui.comp.variants"
+	xmlns:u="sap.ui.unified"
+	xmlns:table="sap.ui.table"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:sv="sap.ui.comp.smartvariants"
+	xmlns:mcb= "sap.m.MultiComboBox"
+	xmlns:cb="sap.m.ComboBox"
+	>
+
+	<ObjectPageLayout id="ObjectPageLayout"
+		showTitleInHeaderContent="true"
+		alwaysShowContentHeader="false"
+		preserveHeaderStateOnScroll="false"
+		headerContentPinnable="true"
+		isChildPage="true"
+		busyIndicatorDelay="0"
+		busy="{objectView>/busy}"
+		headerContentPinned="true"
+		upperCaseAnchorBar="false">
+		<headerTitle>
+			<ObjectPageDynamicHeaderTitle>
+				<expandedHeading>
+					<m:Title text="{User}"
+						wrapping="true"
+						class="sapUiSmallMarginEnd" />
+
+				</expandedHeading>
+				<expandedContent>
+					<m:Text text="{DocumentNumber}" />
+				</expandedContent>
+				<snappedHeading>
+					<m:FlexBox wrap="Wrap"
+						fitContainer="true"
+						alignItems="Center">
+						<m:FlexBox wrap="NoWrap"
+							fitContainer="true"
+							alignItems="Center"
+							class="sapUiTinyMarginEnd">
+							<!-- <m:Avatar src="../../../../../../../{objectView>ProductPicUrl}" displaySize="S" displayShape="Square"/> -->
+							<m:Title text="Create Manual Invoice"
+								wrapping="true"
+								class="sapUiTinyMarginEnd" />
+						</m:FlexBox>
+					</m:FlexBox>
+				</snappedHeading>
+
+
+
+				<actions>
+					
+
+					<m:Button text="{i18n>AddNewUser}"
+						type="Transparent"
+						icon="sap-icon://internet-browser"
+						press="getDisplay">
+						<m:customData>
+							<core:CustomData key="format"
+								value="html"></core:CustomData>
+						</m:customData>
+					</m:Button>
+					<!--m:Button text="{i18n>UpdateStatus}"
+						type="Transparent"
+						enabled="{= ${Statusno} &gt; 10 &amp;&amp; ${Statusno} &lt; 30 }"
+						icon="sap-icon://synchronize"
+						visible="{= ${Statusno} &gt; 10 &amp;&amp; ${Statusno} &lt; 30 &amp;&amp; ${userInfo>/scopes/Admin}}"
+						press="updateStatus">
+						<m:customData>
+							<core:CustomData key="format"
+								value="html"></core:CustomData>
+						</m:customData>
+					</m:Button-->
+					<!--m:Button text="{i18n>Send}"
+						type="Transparent"
+						icon="sap-icon://repost"
+						press="onPrintButtonPress"
+						visible="{= ${Statusno} ===  10 &amp;&amp; ${userInfo>/scopes/Admin} }" /-->
+					<!-- <m:Button text="Copy" type="Transparent" /> <m:Button text="Toggle Footer" type="Transparent" press="onToggleFooter" /> <m:Button icon="sap-icon://action" type="Transparent" /> -->
+				</actions>
+
+			</ObjectPageDynamicHeaderTitle>
+		</headerTitle>
+
+		<headerContent>
+			<m:FlexBox wrap="Wrap"
+				fitContainer="true"
+				alignItems="Stretch">
+				<!-- <f:Avatar src="../../../../../../../{objectView>ProductPicUrl}" displaySize="L" displayShape="Square" class="sapUiTinyMarginEnd">
+						</f:Avatar> -->
+				<m:VBox justifyContent="Center"
+					class="sapUiSmallMarginEnd">
+					<m:Button visible="true"
+					text="{i18n>Create Manual Invoice}"
+					type="Critical"
+					icon="sap-icon://save"
+					press="onCreateManualInvoice">
+				</m:Button>
+				</m:VBox>
+				
+
+			</m:FlexBox>
+		</headerContent>
+
+		<sections>
+
+			<ObjectPageSection title="{i18n>DocumentInfo}">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<form:SimpleForm id="form"
+								editable="true"
+								layout="ColumnLayout"
+								labelSpanXL="2"
+								labelSpanL="2"
+								labelSpanM="12"
+								labelSpanS="12"
+								adjustLabelSpan="false"
+								emptySpanXL="0"
+								emptySpanL="0"
+								emptySpanM="0"
+								emptySpanS="0"
+								columnsXL="3"
+								columnsL="3"
+								columnsM="2">
+								<form:content>
+									<core:Title text="{i18n>DocumentInfo}" />
+									<m:Label text="{i18n>SelectCompany}" />
+										<m:ComboBox
+											id="multiComboBoxCompany"
+											selectionChange="onCompanyFilterChange"
+											showSecondaryValues="true"
+											valueState="Error"
+                                        	valueStateText="{i18n>PleaseSelectACompany}"
+											items="{
+												path: '/Companies',
+												sorter: { path: 'name' }
+											}"
+											customData:hasValue="false">
+											<core:ListItem key="{code}" text="{name}" additionalText="{code}" />
+										</m:ComboBox>
+										<m:Label text="{i18n>Select Country}" />
+										<m:ComboBox
+											id="multiComboBoxCountry"
+											selectionChange="onCountryFilterChange"
+											showSecondaryValues="true"
+											valueState="Error"
+                                        	valueStateText="{i18n>PleaseSelectACountry}"
+											items="{
+												path: '/Countries',
+												sorter: { path: 'name' }
+											}">
+											<core:ListItem key="{code}" text="{name}" additionalText="{code}" />
+										</m:ComboBox>
+
+										<m:Label text="{i18n>BillingWay}" />
+										  <m:MultiComboBox
+										  	  label="{i18n>BillingWay}"
+											  id="comboBoxWay"
+											  selectionChange="onBillingFilterChange"
+											  customData:hasValue="false">
+											  <core:Item key="Inbound" text="{i18n>Inbound}" />
+											  <core:Item key="Outbound" text="{i18n>Outbound}" />
+										  </m:MultiComboBox>
+
+
+									<!--core:Title text="{i18n>DocumentInfo}" /-->
+									<!--m:Label text="{i18n>RtcNumber}" />
+									<m:Input id="RtcNumber" value="{RTCHeaderManual>RtcNumber}" /-->
+									<m:Label text="{i18n>DocumentNumber}" />
+									<m:Input id="DocumentNumber" value="{RTCHeaderManual>DocumentNumber}" />
+									<m:Label text="{i18n>ApprovalCode}" />
+									<m:Input id="ApprovalCode" value="{RTCHeaderManual>ApprovalCode}" />
+									<m:Label text="{i18n>ApprovalDate}" />
+									<m:DatePicker id="ApprovalDate" value="{
+								
+										path : 'RTCHeaderManual>ApprovalDate',
+										type: 'sap.ui.model.type.DateTime',
+										formatOptions: {
+                                            
+											pattern: 'dd/MM/yyyy'
+}
+									}" />
+									<m:Label text="{i18n>BillingDate}" />
+									<m:DatePicker id="BillingDate" value="{path: 'RTCHeaderManual>DocumentDate',
+									type: 'sap.ui.model.type.DateTime',
+									formatOptions: {
+                                            
+										pattern: 'dd/MM/yyyy'
+}
+								}" />
+									<core:Title text="{i18n>PriceInfo}" />
+									<m:Label text="{i18n>TaxAmount}" />
+									<m:Input id="TaxAmount" value="{RTCHeaderManual>TaxAmount}" type="Number" />
+
+									<m:Label text="{i18n>TaxableAmount}" />
+									<m:Input id="TaxableAmount" value="{RTCHeaderManual>TaxableAmount}" type="Number" />
+
+									<m:Label text="{i18n>TotalPrice}" />
+									<m:Input id="TotalPrice" value="{RTCHeaderManual>TotalPrice}" type="Number" />
+
+								
+
+								</form:content>
+							</form:SimpleForm>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+
+			<ObjectPageSection title="{i18n>CustomerInfo}">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<form:SimpleForm id="form_customer"
+								editable="true"
+								layout="ColumnLayout"
+								labelSpanXL="2"
+								labelSpanL="2"
+								labelSpanM="12"
+								labelSpanS="12"
+								adjustLabelSpan="false"
+								emptySpanXL="0"
+								emptySpanL="0"
+								emptySpanM="0"
+								emptySpanS="0"
+								columnsXL="3"
+								columnsL="3"
+								columnsM="2">
+								<form:content>
+									<core:Title text="{i18n>CustomerInfo}" />
+									<m:Label text="{i18n>Customer}" />
+									<m:Input id="CustomerName" value="{RTCHeaderManual>CustomerName}" />
+									<core:Title text="{i18n>Addres}" />
+									<m:Label text="{i18n>Street}" />
+									<m:Input id="CustomerAddress_Street" value="{RTCHeaderManual>CustomerAddress_Street}" />
+									<m:Label text="{i18n>CustomerAddress_Number}" />
+									<m:Input id="CustomerAddress_Number" value="{RTCHeaderManual>CustomerAddress_Number}" />
+									<m:Label text="{i18n>CustomerAddress_District}" />
+									<m:Input id="CustomerAddress_District" value="{RTCHeaderManual>CustomerAddress_District}" />
+									<m:Label text="{i18n>CustomerAddress_PostalCode}" />
+									<m:Input id="CustomerAddress_PostalCode" value="{RTCHeaderManual>CustomerAddress_PostalCode}" />
+									<m:Label text="{i18n>CustomerAddress_Country_Code}" />
+									<m:Input id="CustomerAddress_Country_Code" value="{RTCHeaderManual>CustomerAddress_Country_Code}" />
+
+								</form:content>
+							</form:SimpleForm>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+
+			<ObjectPageSection title="{i18n>SellerInfo}">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<form:SimpleForm id="form_seller"
+								editable="false"
+								layout="ColumnLayout"
+								labelSpanXL="2"
+								labelSpanL="2"
+								labelSpanM="12"
+								labelSpanS="12"
+								adjustLabelSpan="false"
+								emptySpanXL="0"
+								emptySpanL="0"
+								emptySpanM="0"
+								emptySpanS="0"
+								columnsXL="3"
+								columnsL="3"
+								columnsM="2">
+								<form:content>
+									<core:Title text="{i18n>SellerInfo}" />
+									<m:Label text="{i18n>SellerInfo}" />
+									<m:Input id="SellerInfo" value="{RTCHeaderManual>CompanyName}" />
+									<m:Label text="{i18n>SellerEmailAddress}" />
+									<m:Input id="SellerEmailAddress" value="{RTCHeaderManual>SellerAddress_Street}" />
+									<m:Label text="{i18n>SellerPhoneNumber}" />
+									<m:Input id="SellerPhoneNumber" value="{RTCHeaderManual>SellerPhoneNumber}" />
+									<core:Title text="{i18n>Addres}" />
+									<m:Label text="{i18n>Street}" />
+									<m:Input id="SellerAddress_Street" value="{RTCHeaderManual>SellerAddress_Street}" />
+									<m:Label text="{i18n>CustomerAddress_Number}" />
+									<m:Input id="SellerAddress_Number" value="{RTCHeaderManual>SellerAddress_Number}" />
+									<m:Label text="{i18n>CustomerAddress_District}" />
+									<m:Input id="SellerAddress_District" value="{RTCHeaderManual>SellerAddress_District}" />
+									<m:Label text="{i18n>CustomerAddress_PostalCode}" />
+									<m:Input id="SellerAddress_PostalCode" value="{RTCHeaderManual>SellerAddress_PostalCode}" />
+									<m:Label text="{i18n>CustomerAddress_Country_Code}" />
+									<m:Input id="SellerAddress_Country_Code" value="{RTCHeaderManual>SellerAddress_Country_Code}" />
+
+								</form:content>
+							</form:SimpleForm>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+
+			<ObjectPageSection title="{i18n>TaxFreeData}">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<!--m:VBox>
+								<m:CheckBox id="taxFreeCheckBox" text="{i18n>Enable}" select="onTaxFreeCheckBoxSelect" />
+							</m:VBox-->
+							<form:SimpleForm id="form_taxfree"
+								editable="false"
+								layout="ColumnLayout"
+								labelSpanXL="2"
+								labelSpanL="2"
+								labelSpanM="12"
+								labelSpanS="12"
+								adjustLabelSpan="false"
+								emptySpanXL="0"
+								emptySpanL="0"
+								emptySpanM="0"
+								emptySpanS="0"
+								columnsXL="3"
+								columnsL="3"
+								columnsM="2">
+								<form:content>
+									<core:Title text="{i18n>TaxFreeData}" />
+									<m:Label text="{i18n>PassportID}" />
+									<m:Input id="pasaportid" value="{RTCHeaderManual>PassportID}" />
+									<m:Label text="{i18n>PassportDate}" />
+									<m:Input id="passportdate" value="{RTCHeaderManual>PassportDate}" />
+
+								</form:content>
+							</form:SimpleForm>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+
+			<ObjectPageSection title="{i18n>InternetSales}">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<form:SimpleForm id="form_internetsales"
+								editable="false"
+								layout="ColumnLayout"
+								labelSpanXL="2"
+								labelSpanL="2"
+								labelSpanM="12"
+								labelSpanS="12"
+								adjustLabelSpan="false"
+								emptySpanXL="0"
+								emptySpanL="0"
+								emptySpanM="0"
+								emptySpanS="0"
+								columnsXL="3"
+								columnsL="3"
+								columnsM="2">
+								<form:content>
+									<core:Title text="{i18n>InternetSales}" />
+									<m:Label text="{i18n>Website}" />
+									<m:Input id="website" value="{RTCHeaderManual>Website}" />
+									<m:Label text="{i18n>PaymentType}" />
+									<m:Input id="paymenttype" value="{RTCHeaderManual>PaymentType}" />
+									<m:Label text="{i18n>PaymentDescription}" />
+									<m:Input id="paymentdescription" value="{RTCHeaderManual>PaymentDescription}" />
+									<m:Label text="{i18n>PaymentChannel}" />
+									<m:Input id="paymentchannel" value="{RTCHeaderManual>PaymentChannel}" />
+									<m:Label text="{i18n>Carrier}" />
+									<m:Input id="paymentdate" value="{RTCHeaderManual>PaymentDate}" />
+									<m:Label text="{i18n>CarrierCode}" />
+									<m:Input id="carrier" value="{RTCHeaderManual>Carrier}" />
+									<m:Label text="{i18n>PaymentDate}" />
+									<m:Input id="carriercode" value="{RTCHeaderManual>CarrierCode}" />
+									<m:Label text="{i18n>CarrierName}" />
+									<m:Input id="carriername" value="{RTCHeaderManual>CarrierName}" />
+									<m:Label text="{i18n>SendDate}" />
+									<m:Input id="senddate" value="{RTCHeaderManual>SendDate}" />
+
+								</form:content>
+							</form:SimpleForm>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+
+
+			<ObjectPageSection title="{i18n>InvoiceItems}">
+				
+				<subSections>
+					<ObjectPageSubSection>
+
+						<blocks>
+
+							<m:VBox id="itemsContainer" direction="Column" justifyContent="Start" alignItems="Start">
+								<m:HBox>
+									<m:Button text="Add Item" press="onAddItem" icon="sap-icon://add" />
+									<m:Button text="Remove Item" press="onRemoveItem" icon="sap-icon://delete" />
+								</m:HBox>
+							</m:VBox>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			
+			
+
+			<ObjectPageSection title="{i18n>Notes}">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<m:VBox>
+								<m:TextArea id="inputAdditionalInfos"
+									value="{RTCHeaderManual>Note}"
+									width="100%"
+									enabled="true"
+									rows="5" />
+							</m:VBox>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+		</sections>
+	</ObjectPageLayout>
+</mvc:View>

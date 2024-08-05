@@ -1,0 +1,66 @@
+<mvc:View xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns:link="sap.m"
+    xmlns:card="sap.f.cards"
+    xmlns:core="sap.ui.core"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" controllerName="rtcusermanagement.controller.RTCUserManagement" displayBlock="true">
+
+    <IconTabBar class="sapUiResponsiveContentPadding" id="idIconTabBar" stretchContentHeight="true" applyContentPadding="false" headerMode="Inline" backgroundDesign="Translucent">
+        <items >
+            <IconTabFilter text="Home" id="RTCUserManagementHomePageID" key="Home">
+                
+                <f:Card id="RTCUserManagementCardID" class="sapUiMediumMargin" width="300px" height="300px" >
+                    <f:header>
+                        <card:Header id="RTCUserManagementCardHeaderID" title="User Management" subtitle="Add/Delete/Update Users" iconSrc="sap-icon://add-employee" press="onRTCUserManagementCardPress"/>
+                    </f:header>
+                    <f:content>
+
+                    </f:content>
+                </f:Card>
+
+                <f:Card id="RTCUserGroupsCardID" class="sapUiMediumMargin" width="300px" height="300px" >
+                    <f:header>
+                        <card:Header id="RTCUserGroupsCardHeaderID" title="User Groups" subtitle="Add/Delete/Update Users" iconSrc="sap-icon://group" press="onRTCUserGroupsCardPress"/>
+                    </f:header>
+                </f:Card>
+
+                <f:Card id="RTCRolesCardID" class="sapUiMediumMargin" width="300px" height="300px" >
+                    <f:header>
+                        <card:Header id="RTCRolesHeaderID" title="Roles" subtitle="Add/Delete/Update Roles" iconSrc="sap-icon://role" press="onRTCRolesCardPress"/>
+                    </f:header>
+                </f:Card>
+
+                <f:Card id="RTCRoleCollectionsCardID" class="sapUiMediumMargin" width="300px" height="300px" >
+                    <f:header>
+                        <card:Header id="RTCRoleCollectionsHeaderID" title="Role Collections" subtitle="Add/Delete/Update Role Collections" iconSrc="sap-icon://collections-management" press="onRTCRoleCollectionsCardPress"/>
+                    </f:header>
+                </f:Card>
+            </IconTabFilter>
+
+            <IconTabFilter text="Users and Authorizations" id="RTCUserManagementPageID" key="RTCUserManagementPage">
+                <mvc:XMLView id="UsersandAuthorizationsXMLViewID" viewName="rtcusermanagement.view.UsersandAuthorizationPage" /> 
+            </IconTabFilter>
+
+            <IconTabFilter text="Groups" id="RTCUserGroupsPageID" key="RTCUserGroupsPage">
+                <mvc:XMLView id="GroupsPageXMLViewID" viewName="rtcusermanagement.view.GroupsPage" /> 
+            </IconTabFilter>
+
+            <IconTabFilter text="Roles" id="RTCRolesPageID" key="RTCRolesPage">
+                <mvc:XMLView id="RolesPageXMLViewID" viewName="rtcusermanagement.view.RolesPage" />
+            </IconTabFilter>
+
+            <IconTabFilter text="RoleCollections" id="RTCRoleCollectionsPageID" key="RTCRoleCollectionsPage">
+                <mvc:XMLView id="RoleCollectionsPageXMLViewID" viewName="rtcusermanagement.view.RoleCollectionsPage" />
+            </IconTabFilter>
+
+            <IconTabFilter text="RoleAssignments" id="RoleAssignmentsPageID" key="RoleAssignmentsPage">
+                <mvc:XMLView id="RoleAssignmentsXMLViewID" viewName="rtcusermanagement.view.RoleAssignments" />
+            </IconTabFilter>
+        </items>
+    </IconTabBar>
+
+
+</mvc:View>

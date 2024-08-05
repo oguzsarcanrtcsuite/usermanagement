@@ -1,0 +1,48 @@
+<mvc:View xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    controllerName="rtcusermanagement.controller.UsersandAuthorizationPage"
+    displayBlock="true">
+
+    <VBox fitContainer="true">
+        <Title text="User Management" level="H2"/>
+
+        <Table id="userTable" inset="false" width="auto" items="{userModel>/users}">
+            <headerToolbar>
+                <Toolbar>
+                    <Title text="Users List"/>
+                    <ToolbarSpacer/>
+                    <Button text="+ Add" press="onAddButtonPress"/>
+                    <Button text="Delete"/>
+                </Toolbar>
+            </headerToolbar>
+            <columns>
+                <Column>
+                    <Text text="First Name"/>
+                </Column>
+                <Column>
+                    <Text text="Last Name"/>
+                </Column>
+                <Column>
+                    <Text text="Email"/>
+                </Column>
+                <Column>
+                    <Text text="Login Name"/>
+                </Column>
+                <Column>
+                    <Text text="SCIM ID"/>
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem type="Active" press="onUserPress">
+                    <cells>
+                        <Text text="{userModel>firstName}"/>
+                        <Text text="{userModel>lastName}"/>
+                        <Text text="{userModel>emailAddress}"/>
+                        <Text text="{userModel>loginName}"/>
+                        <Text text="{userModel>ID}"/>
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </VBox>
+</mvc:View>

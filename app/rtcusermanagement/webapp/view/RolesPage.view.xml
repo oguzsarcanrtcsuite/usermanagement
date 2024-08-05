@@ -1,0 +1,44 @@
+<mvc:View xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns:link="sap.m"
+    xmlns:card="sap.f.cards"
+    xmlns:core="sap.ui.core"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" controllerName="rtcusermanagement.controller.RTCUserManagement" displayBlock="true">
+
+    <VBox fitContainer="true">
+        <Title text="Roles" level="H2"/>
+
+        <Table inset="false" width="auto">
+            <headerToolbar>
+                <Toolbar>
+                    <Title text="Roles"/>
+                    <ToolbarSpacer/>
+                    <Button text="+ Add"/>
+                    <Button text="Delete"/>
+                </Toolbar>
+            </headerToolbar>
+            <columns>
+                <Column>
+                    <Text text="Role Template"/>
+                </Column>
+                <Column>
+                    <Text text="Role Name"/>
+                </Column>
+                <Column>
+                    <Text text="Role Description"/>
+                </Column>
+                <Column>
+                    <Text text="Add Role"/>
+                </Column>
+
+            </columns>
+            <items>
+                
+            </items>
+        </Table>
+    </VBox>
+
+</mvc:View>

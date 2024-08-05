@@ -1,0 +1,18 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <VBox>
+        <Label text="First Name"/>
+        <Text text="{userModel>firstName}"/>
+
+        <Label text="Last Name"/>
+        <Text text="{userModel>lastName}"/>
+
+        <Label text="Email"/>
+        <Text text="{userModel>emailAddress}"/>
+
+        <Label text="Login Name"/>
+        <Text text="{userModel>loginName}"/>
+
+        <Label text="SCIM ID"/>
+        <Text text="{userModel>ID}"/>
+    </VBox>
+</core:FragmentDefinition>
